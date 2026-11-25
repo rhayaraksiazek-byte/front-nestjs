@@ -65,7 +65,7 @@ async function cadastrarAluno() {
 
 async function listarAlunos() {
     // Limpar o input de busca
-    const buscaInput = document.getElementById("busca_email");
+    const buscaInput = document.getElementById("busca_nome");
     if (buscaInput) buscaInput.value = "";
 
     try {
@@ -81,8 +81,8 @@ async function listarAlunos() {
 }
 
 async function buscarAlunos() {
-    const emailBusca = document.getElementById("busca_email").value.trim();
-    if (!emailBusca) {
+    const nomeBusca = document.getElementById("busca_nome").value.trim();
+    if (!nomeBusca) {
         listarAlunos();
         return;
     }
@@ -92,8 +92,8 @@ async function buscarAlunos() {
         const alunos = await res.json();
         
         // Filtrar pelo CPF ignorando caracteres não numéricos
-        const emailLimpo = emailBusca.replace(/\D/g, '');
-        const filtrados = alunos.filter(c => c.cpf && c.cpf.replace(/\D/g, '') === emailLimpo);
+        const nomeLimpo = nomeBusca.trim().toLowerCase();
+        const filtrados = alunos.filter(aluno => aluno.nome && aluno.nome.trim().toLowerCase() === nomeLimpo);
         renderizarAlunos(filtrados);
     } catch (erro) {
         const container = document.getElementById("listaAlunos");
